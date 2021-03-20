@@ -1,24 +1,87 @@
 package com.hasan.notificationdemo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Notification
+import android.app.PendingIntent
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    private val NOTIFICATION_ID = 888
+    private lateinit var notificationManagerCompat : NotificationManagerCompat
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        notificationManagerCompat = NotificationManagerCompat.from(this)
 
         val btnInboxStyleNotification = findViewById<Button>(R.id.btn_inbox_style)
         btnInboxStyleNotification.setOnClickListener(this)
     }
 
-    override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+    override fun onClick(view: View) {
+       when(view.id){
+           R.id.btn_inbox_style ->{
+               generateInboxStyleNotification()
+               return
+           }
+       }
     }
 
-    private fun generateInboxStyleNotification(){
+    private fun generateInboxStyleNotification() {
+        val notificationChannelId: String = NotificationUtil().createInboxStyleNotificationChannel(this)
+
+        val inboxStyle = NotificationCompat.InboxStyle() // This title is slightly different than regular title
+                .setBigContentTitle(InboxStyleMocData.mBigContentTitle)
+                .setSummaryText(InboxStyleMocData.mSummaryText)
+
+        for (summary in InboxStyleMocData.individualEmailSummary()) {
+            inboxStyle.addLine(summary)
+        }
+
+        val mainIntent = Intent(this, MainActivity::class.java)
+
+        val mainPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                mainIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val notificationCompatBuilder = NotificationCompat.Builder(
+                applicationContext,
+                notificationChannelId
+        )
+
+        notificationCompatBuilder.setStyle(inboxStyle)
+                .setContentTitle(InboxStyleMocData.contentTitle)
+                .setContentText(InboxStyleMocData.contentText)
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_baseline_person_24))
+                .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setColor(ContextCompat.getColor(applicationContext, R.color.purple_500))
+                .setSubText(InboxStyleMocData.numberOfNewEmails.toString())
+                .setCategory(Notification.CATEGORY_EMAIL)
+                .setPriority(InboxStyleMocData.priority)
+                .setVisibility(InboxStyleMocData.channelLockScreenVisibility)
+
+        for (name in InboxStyleMocData.participants()){
+            notificationCompatBuilder.addPerson(name)
+        }
+
+        val notification = notificationCompatBuilder.build()
+
+        notificationManagerCompat.notify(NOTIFICATION_ID,notification)
+
 
     }
 }
