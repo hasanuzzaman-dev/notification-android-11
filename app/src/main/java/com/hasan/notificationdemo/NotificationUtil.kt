@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.hasan.notificationdemo.objects.InboxStyleMocData
 
 class NotificationUtil {
 
@@ -12,6 +13,7 @@ class NotificationUtil {
 
             //The id of the channel
             val channelId = InboxStyleMocData.channelId
+
             //The user-visible name of the channel.
             val channelName: CharSequence = InboxStyleMocData.channelName
             val channelDescription = InboxStyleMocData.channelDescription
@@ -20,7 +22,6 @@ class NotificationUtil {
             val channelLockScreenVisibility = InboxStyleMocData.channelLockScreenVisibility
 
             // Initializes NotificationChannel
-
             val notificationChannel = NotificationChannel(channelId, channelName, channelImportance)
             notificationChannel.description = channelDescription
             notificationChannel.enableVibration(channelEnableVibrate)
@@ -34,6 +35,8 @@ class NotificationUtil {
             notificationManager.createNotificationChannel(notificationChannel)
 
             return channelId
+
+
         }else{
             return ""
         }

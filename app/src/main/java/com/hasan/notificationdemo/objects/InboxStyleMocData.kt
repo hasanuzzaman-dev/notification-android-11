@@ -1,4 +1,4 @@
-package com.hasan.notificationdemo
+package com.hasan.notificationdemo.objects
 
 import android.app.NotificationManager
 import androidx.core.app.NotificationCompat

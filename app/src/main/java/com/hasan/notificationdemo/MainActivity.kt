@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.hasan.notificationdemo.objects.InboxStyleMocData
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -25,12 +26,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val btnInboxStyleNotification = findViewById<Button>(R.id.btn_inbox_style)
         btnInboxStyleNotification.setOnClickListener(this)
+
+        // Big Image Style Notification
+        val btnBigImageStyleNotification = findViewById<Button>(R.id.btn_big_image_style)
+        btnBigImageStyleNotification.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
        when(view.id){
            R.id.btn_inbox_style ->{
                generateInboxStyleNotification()
+               return
+           }
+           R.id.btn_big_image_style ->{
+
                return
            }
        }
