@@ -1,4 +1,4 @@
-package com.hasan.notificationdemo
+package com.hasan.notificationdemo.objects
 
 import android.app.NotificationManager
 import androidx.core.app.NotificationCompat
@@ -20,7 +20,7 @@ object InboxStyleMocData {
 
         val list = ArrayList<String>()
 
-        list.add("Hasan   -  Launc party is here...")
+        list.add("Hasan   -  Launch party is here...")
         list.add("Hasib  -  There's a turtle in the server.")
         list.add("Maruf  -   Check this out...")
         list.add("Saiful  -  Check in Code?")
@@ -30,7 +30,7 @@ object InboxStyleMocData {
     }
 
     fun participants(): ArrayList<String> {
-        //If the user in "Do not disturb mode, the user will still be notified
+        // If the user in "Do not disturb mode, the user will still be notified
         // if the user(s) is starred as a favorite"
 
         val list  = ArrayList<String>()

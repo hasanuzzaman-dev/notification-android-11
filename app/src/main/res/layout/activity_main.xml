@@ -35,4 +35,24 @@
         android:layout_margin="8dp"
         />
 
+    <TextView
+        android:id="@+id/tv_big_image_style_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Demos social type app using BIG_PICTURE_STYLE"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:padding="8dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_big_image_style"
+        android:text="Launch Big Image Style Notification"
+        android:layout_margin="8dp"
+        />
+
 </LinearLayout>
