@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.hasan.notificationdemo.objects.BigPictureStyleMocData
 import com.hasan.notificationdemo.objects.InboxStyleMocData
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -38,8 +39,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                generateInboxStyleNotification()
                return
            }
-           R.id.btn_big_image_style ->{
-
+           R.id.btn_big_image_style -> {
+               generateBigPictureStyleNotification()
                return
            }
        }
@@ -83,13 +84,60 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 .setPriority(InboxStyleMocData.priority)
                 .setVisibility(InboxStyleMocData.channelLockScreenVisibility)
 
-        for (name in InboxStyleMocData.participants()){
+        for (name in InboxStyleMocData.participants()) {
             notificationCompatBuilder.addPerson(name)
         }
 
         val notification = notificationCompatBuilder.build()
 
-        notificationManagerCompat.notify(NOTIFICATION_ID,notification)
+        notificationManagerCompat.notify(NOTIFICATION_ID, notification)
+
+
+    }
+
+    private fun generateBigPictureStyleNotification() {
+        val notificationChannelId: String = NotificationUtil().createInboxStyleNotificationChannel(this)
+
+        val bigPictureStyle = NotificationCompat.BigPictureStyle() // This title is slightly different than regular title
+                .bigPicture(BitmapFactory.decodeResource(resources, BigPictureStyleMocData.bigImage))
+                .setBigContentTitle(BigPictureStyleMocData.bigContentTitle)
+                .setSummaryText(BigPictureStyleMocData.summaryText)
+
+
+        val mainIntent = Intent(this, MainActivity::class.java)
+
+        val mainPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                mainIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val notificationCompatBuilder = NotificationCompat.Builder(
+                applicationContext,
+                notificationChannelId
+        )
+
+        notificationCompatBuilder.setStyle(bigPictureStyle)
+                .setContentTitle(BigPictureStyleMocData.contentTitle)
+                .setContentText(BigPictureStyleMocData.contentText)
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_baseline_person_24))
+                .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setColor(ContextCompat.getColor(applicationContext, R.color.purple_500))
+                .setSubText(1.toString())
+                .setCategory(Notification.CATEGORY_SOCIAL)
+                .setPriority(BigPictureStyleMocData.priority)
+                .setVisibility(BigPictureStyleMocData.channelLockScreenVisibility)
+
+        for (name in BigPictureStyleMocData.participants()) {
+            notificationCompatBuilder.addPerson(name)
+        }
+
+        val notification = notificationCompatBuilder.build()
+
+        notificationManagerCompat.notify(NOTIFICATION_ID, notification)
 
 
     }
